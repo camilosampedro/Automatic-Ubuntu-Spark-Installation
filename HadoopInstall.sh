@@ -1,10 +1,23 @@
 #!/bin/bash
+
+# Execute a command with message, checking if there are errors
+# 	$1 Message
+#	$2 Command
+fuction executeWithMessage {
+	echo -ne "=> $1"
+	$2 || error $?
+}
+
+# Show error message with exit code
+#	$1 Exit code
+function error {
+	echo "There was an error: Exit code ($1)"
+}
+
 # Verifies if Java is installed, and if it's not installed, install it.
 function isJavaInstalled {
-	echo -ne "=> Verifying Java installation"
-	
 	# Trying to execute java
-	java -version
+	executeWithMessage "Verifying Java installation" "java -version"
 	
 	# Getting the exit code of the execution.
   	EXITCODE="$?"

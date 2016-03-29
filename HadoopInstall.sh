@@ -2,17 +2,19 @@
 
 # Execute a command with message, checking if there are errors
 # 	$1 Message
-#	$2 Command
+#	$2 Error message
+#	$3 Command
 function executeWithMessage {
 	echo -ne "\n => $1"
-	$2 || error "$?"
+	$3 || error "$?" "$2"
 	echo -ne "... :)\n"
 }
 
 # Show error message with exit code
 #	$1 Exit code
+#	$2 Error message
 function error {
-	echo "There was an error: Exit code ($1)"
+	echo "There was an error: $2 with exit code ($1)"
 	exit
 }
 
@@ -20,7 +22,7 @@ function error {
 function isJavaInstalled {
 	echo
 	# Trying to execute java
-	executeWithMessage "Verifying Java installation" "java -version"
+	java -version
 	
 	# Getting the exit code of the execution.
   	EXITCODE="$?"
@@ -42,34 +44,24 @@ function isJavaInstalled {
 function installJava {
 	
 	# Clone my another gist with Java installation for Ubuntu
-	git clone https://gist.github.com/7128552e33c6c4c6ab51.git
-	cd 7128552e33c6c4c6ab51 || exit
+	executeWithMessage "Cloning java installation repository" "It was not possible to clone the repository" "git clone https://gist.github.com/7128552e33c6c4c6ab51.git"
+	executeWithMessage "Getting into the folder" "It was not possible to get into the folder" "cd 7128552e33c6c4c6ab51"
 	
 	# Give it permissions and execute it
-	chmod +x Install\ Java.sh
-	./Install\ Java.sh
+	executeWithMessage "Proceeding to install java" "Java installation failed" "chmod +x Install\ Java.sh && ./Install\ Java.sh"
+	
 }
 
 # Installs Hadoop
 function installHadoop {
 	# Stand in /opt/ directory
-	cd /opt/ || exit
+	executeWithMessage "Getting into /opt/" "Cannot get into opt folder" "cd /opt/"
 	
-	echo -ne "(1/4) => Downloading Hadoop"
-	sudo wget http://www.eu.apache.org/dist/hadoop/common/current/hadoop-2.7.1.tar.gz
-	echo -ne "... :) \n"
-	
-	echo -ne "=> Decompressing Hadoop..."
-	sudo tar -xvzf hadoop-2.7.1.tar.gz
-	echo -ne "... :) \n"
-	
-	echo -ne "=> Creating a symbolic link to hadoop"
-	sudo ln -s hadoop-2.7.1 hadoop
-	echo -ne "... :) \n"
-	
-	echo -ne "=> Adding permissions..."
-	sudo chmod -R +rx hadoop
-	echo -ne "... :) \n"
+	# Hadoop install steps
+	executeWithMessage "(1/4) Downloading Hadoop" "Could not download Hadoop tar gz" "sudo wget http://www.eu.apache.org/dist/hadoop/common/current/hadoop-2.7.1.tar.gz"
+	executeWithMessage "(2/4) Decompressing Hadoop" "Could not decompress Hadoop tar gz" "sudo tar -xvzf hadoop-2.7.1.tar.gz"
+	executeWithMessage "(3/4) Creating a symbolic link to hadoop" "Could not create a symbolic link to hadoop" "sudo ln -s hadoop-2.7.1 hadoop"
+	executeWithMessage "(4/4) Adding permissions" "Failed to add execute and read permissions to hadoop folder recursively" "sudo chmod -R +rx hadoop"
 }
 
 # Create Hadoop user

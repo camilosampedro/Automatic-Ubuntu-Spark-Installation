@@ -109,67 +109,67 @@ function networkSettings {
 
 # Edit Hadoop single host configuration
 function editMainConfig {
-  echo "Editing the config files under /opt/hadoop/etc/hadoop/"
-  cd /opt/hadoop/etc/hadoop/ || exit
-  echo -ne "[1/] core-site.xml... "
-  {
-    echo "<?xml version=\"1.0\"?>"
-    echo "<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>"
-    echo "<configuration>"
-    echo "  <property>"
-    echo "    <name>fs.default.name</name>"
-	  echo "    <value>hdfs://localhost:8020</value>"
-    echo "    <description>Nombre del filesystem por defecto.</description>"
-    echo "  </property>"
-    echo "</configuration>"
-  } > core-site.xml
-  echo -ne " OK\n"
-  
-  echo -ne "[2/] hdfs-site.xml... "
-  {
-    echo "<?xml version=\"1.0\"?>"
-    echo "<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>"
-    echo "<configuration>"
-    echo "  <property>"
-    echo "    <name>dfs.namenode.name.dir</name>"
-    echo "    <value>file:/home/hadoop/workspace/dfs/name</value>"
-    echo "    <description>Path del filesystem donde el namenode almacenará los metadatos.</description>"
-    echo "  </property>"
-    echo "  <property>"
-    echo "    <name>dfs.datanode.data.dir</name>"
-    echo "    <value>file:/home/hadoop/workspace/dfs/data</value>"
-    echo "    <description>Path del filesystem donde el datanode almacenará los bloques.</description>"
-    echo "  </property>"
-    echo "  <property>"
-    echo "    <name>dfs.replication</name>"
-    echo "    <value>1</value>"
-    echo "    <description>Factor de replicación. Lo ponemos a 1 porque sólo tenemos 1 máquina.</description>"
-    echo "  </property>"
-    echo "</configuration>"
-  } > hdfs-site.xml
-  echo -ne "OK\n"
-  
-  echo -ne "[3/] Creating hdfs directories /home/hadoop/workspace/dfs/name... "
-  sudo -u hadoop mkdir -p /home/hadoop/workspace/dfs/name
-  sudo -u hadoop mkdir -p /home/hadoop/workspace/dfs/data
-  echo -ne "OK \n"
-  
-  echo -ne "[4/] Copying the mapred-site.xml template file... "
-  sudo cp mapred-site.xml.template mapred-site.xml
-  echo -ne "OK \n"
-  
-  {
-    echo "<configuration>"
-    echo "<property>"
-    echo "  <name>yarn.nodemanager.aux-services</name>"
-    echo "  <value>mapreduce_shuffle</value>"
-    echo "</property>"
-    echo "<property>"
-    echo "  <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>"
-    echo "  <value>org.apache.hadoop.mapred.ShuffleHandler</value>"
-    echo "</property>"
-    echo "</configuration>"
-  } >> yarn-site.xml
+	echo "Editing the config files under /opt/hadoop/etc/hadoop/"
+	cd /opt/hadoop/etc/hadoop/ || exit
+	echo -ne "[1/4] core-site.xml... "
+	{
+		echo "<?xml version=\"1.0\"?>"
+		echo "<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>"
+		echo "<configuration>"
+		echo "  <property>"
+		echo "    <name>fs.default.name</name>"
+		  echo "    <value>hdfs://localhost:8020</value>"
+		echo "    <description>Nombre del filesystem por defecto.</description>"
+		echo "  </property>"
+		echo "</configuration>"
+	} > core-site.xml
+	echo -ne " OK\n"
+	
+	echo -ne "[2/4] hdfs-site.xml... "
+	{
+		echo "<?xml version=\"1.0\"?>"
+		echo "<?xml-stylesheet type=\"text/xsl\" href=\"configuration.xsl\"?>"
+		echo "<configuration>"
+		echo "  <property>"
+		echo "    <name>dfs.namenode.name.dir</name>"
+		echo "    <value>file:/home/hadoop/workspace/dfs/name</value>"
+		echo "    <description>Path del filesystem donde el namenode almacenará los metadatos.</description>"
+		echo "  </property>"
+		echo "  <property>"
+		echo "    <name>dfs.datanode.data.dir</name>"
+		echo "    <value>file:/home/hadoop/workspace/dfs/data</value>"
+		echo "    <description>Path del filesystem donde el datanode almacenará los bloques.</description>"
+		echo "  </property>"
+		echo "  <property>"
+		echo "    <name>dfs.replication</name>"
+		echo "    <value>1</value>"
+		echo "    <description>Factor de replicación. Lo ponemos a 1 porque sólo tenemos 1 máquina.</description>"
+		echo "  </property>"
+		echo "</configuration>"
+	} > hdfs-site.xml
+	echo -ne "OK\n"
+	
+	echo -ne "[3/4] Creating hdfs directories /home/hadoop/workspace/dfs/name... "
+	sudo -u hadoop mkdir -p /home/hadoop/workspace/dfs/name
+	sudo -u hadoop mkdir -p /home/hadoop/workspace/dfs/data
+	echo -ne "OK \n"
+	
+	echo -ne "[4/4] Copying the mapred-site.xml template file... "
+	sudo cp mapred-site.xml.template mapred-site.xml
+	echo -ne "OK \n"
+	
+	{
+		echo "<configuration>"
+		echo "<property>"
+		echo "  <name>yarn.nodemanager.aux-services</name>"
+		echo "  <value>mapreduce_shuffle</value>"
+		echo "</property>"
+		echo "<property>"
+		echo "  <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>"
+		echo "  <value>org.apache.hadoop.mapred.ShuffleHandler</value>"
+		echo "</property>"
+		echo "</configuration>"
+	} >> yarn-site.xml
 }
 
 # Verify if Java is installed

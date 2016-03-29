@@ -7,7 +7,7 @@
 function executeWithMessage {
 	echo -ne "\n => $1"
 	$3 || error "$?" "$2"
-	echo -ne "... :)\n"
+	echo -ne " ... :)\n"
 }
 
 # Show error message with exit code

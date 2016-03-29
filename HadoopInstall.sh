@@ -58,7 +58,7 @@ function installHadoop {
 	executeWithMessage "Getting into /opt/" "Cannot get into opt folder" "cd /opt/"
 	
 	# Hadoop install steps
-	executeWithMessage "(1/4) Downloading Hadoop" "Could not download Hadoop tar gz" "sudo wget http://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz"
+	executeWithMessage "(1/4) Downloading Hadoop" "Could not download Hadoop tar gz" "sudo wget http://www-us.apache.org/dist/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz"
 	executeWithMessage "(2/4) Decompressing Hadoop" "Could not decompress Hadoop tar gz" "sudo tar -xvzf hadoop-2.7.1.tar.gz"
 	executeWithMessage "(3/4) Creating a symbolic link to hadoop" "Could not create a symbolic link to hadoop" "sudo ln -s hadoop-2.7.1 hadoop"
 	executeWithMessage "(4/4) Adding permissions" "Failed to add execute and read permissions to hadoop folder recursively" "sudo chmod -R +rx hadoop"

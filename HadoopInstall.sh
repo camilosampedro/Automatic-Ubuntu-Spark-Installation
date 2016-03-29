@@ -185,26 +185,37 @@ function editMainConfig {
 	} >> yarn-site.xml
 }
 
-# Verify if Java is installed
-isJavaInstalled
+# Start point for the program
+function main {
+	# Verify if Java is installed
+	isJavaInstalled
+	
+	# Install Hadoop
+	installHadoop
+	
+	sudo su 
+	
+	# User creation
+	createUser
+	
+	# Network settings
+	networkSettings
+	
+	# Config files
+	editMainConfig
+	
+	# Format hdfs
+	sudo hdfs namenode -format
+	
+	echo "Installation complete, after you log in with hadoop user, run Hadoop using:"
+	echo "start-dfs.sh & star-yarn.sh"
+	echo ""
+}
 
-# Install Hadoop
-installHadoop
+read -p "WARNING! This script is under development and can cause problems. (IT IS STILL NOT WORKING! and should ONLY be used for testing!) Are you sure you want to continue? " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    main
+fi
 
-sudo su 
 
-# User creation
-createUser
-
-# Network settings
-networkSettings
-
-# Config files
-editMainConfig
-
-# Format hdfs
-sudo hdfs namenode -format
-
-echo "Installation complete, after you log in with hadoop user, run Hadoop using:"
-echo "start-dfs.sh & star-yarn.sh"
-echo ""

@@ -3,19 +3,22 @@
 # Execute a command with message, checking if there are errors
 # 	$1 Message
 #	$2 Command
-fuction executeWithMessage {
-	echo -ne "=> $1"
-	$2 || error $?
+function executeWithMessage {
+	echo -ne "\n => $1"
+	$2 || error "$?"
+	echo -ne "... :)\n"
 }
 
 # Show error message with exit code
 #	$1 Exit code
 function error {
 	echo "There was an error: Exit code ($1)"
+	exit
 }
 
 # Verifies if Java is installed, and if it's not installed, install it.
 function isJavaInstalled {
+	echo
 	# Trying to execute java
 	executeWithMessage "Verifying Java installation" "java -version"
 	
